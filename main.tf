@@ -73,3 +73,11 @@ resource "azurerm_linux_virtual_machine" "firstk21vm" {
 #   disable_password_authetication = false
 #  admin_password = 
 #}
+data "azurerm_public_ip" "k21publicip" {
+  name                = azurerm_public_ip.k21publicip.name
+  resource_group_name = azurerm_resource_group.firsrg.name
+}
+
+output "public_ip_address" {
+  value = data.azurerm_public_ip.k21publicip.ip_address
+}
