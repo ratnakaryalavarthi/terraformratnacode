@@ -1,7 +1,5 @@
 provider "azurerm" {
-  features {
-
-  }
+  features {}
 }
 resource "azurerm_resource_group" "firsrg" {
   name     = var.resource_group_name
