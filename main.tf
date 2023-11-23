@@ -20,8 +20,8 @@ resource "azurerm_resource_group" "jenkins-terraform-test" {
 resource "azurerm_virtual_network" "jenkins-terraform-test-network" {
   name                = "jenkins-terraform-test-network"
   address_space       = var.address_space
-  location            = azurerm_resource_group.firsrg.location
-  resource_group_name = azurerm_resource_group.firsrg.name
+  location            = azurerm_resource_group.jenkins-terraform-test.location
+  resource_group_name = azurerm_resource_group.jenkins-terraform-test.name
 
 }
 resource "azurerm_subnet" "jenkins-terraform-test-subnet1" {
