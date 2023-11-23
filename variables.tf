@@ -3,7 +3,7 @@ variable "location" {
 }
 
 variable "resource_group_name" {
-  default = "jenkinsvimal"
+  default = "jenkins-terraform-test"
 }
 
 variable "address_space" {
