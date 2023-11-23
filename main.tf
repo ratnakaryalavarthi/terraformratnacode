@@ -13,47 +13,47 @@ terraform {
 provider "azurerm" {
   features {}
 }
-resource "azurerm_resource_group" "firsrg" {
+resource "azurerm_resource_group" "jenkins-terraform-test" {
   name     = var.resource_group_name
   location = var.location
 }
-resource "azurerm_virtual_network" "k21network" {
-  name                = "k21network"
+resource "azurerm_virtual_network" "jenkins-terraform-test-network" {
+  name                = "jenkins-terraform-test-network"
   address_space       = var.address_space
   location            = azurerm_resource_group.firsrg.location
   resource_group_name = azurerm_resource_group.firsrg.name
 
 }
-resource "azurerm_subnet" "k21subnet1" {
-  name                 = "k21subet1"
-  resource_group_name  = azurerm_resource_group.firsrg.name
-  virtual_network_name = azurerm_virtual_network.k21network.name
+resource "azurerm_subnet" "jenkins-terraform-test-subnet1" {
+  name                 = "jenkins-terraform-subnet1"
+  resource_group_name  = azurerm_resource_group.jenkins-terraform-test.name
+  virtual_network_name = azurerm_virtual_network.jenkins-terraform-test-network.name
   address_prefixes     = var.address_prefixes
 }
-resource "azurerm_public_ip" "k21publicip" {
+resource "azurerm_public_ip" "jenkins-terraform-test-publicip" {
   name                = "mypubliip"
-  location            = azurerm_resource_group.firsrg.location
-  resource_group_name = azurerm_resource_group.firsrg.name
+  location            = azurerm_resource_group.jenkins-terraform-test.location
+  resource_group_name = azurerm_resource_group.jenkins-terraform-test.name
   allocation_method   = "Dynamic"
 
 }
-resource "azurerm_network_interface" "k21nic" {
-  name                = "k21nic"
-  location            = azurerm_resource_group.firsrg.location
-  resource_group_name = azurerm_resource_group.firsrg.name
+resource "azurerm_network_interface" "jenkins-terraform-test-nic" {
+  name                = "jenkins-terraform-test-nic"
+  location            = azurerm_resource_group.jenkins-terraform-test.location
+  resource_group_name = azurerm_resource_group.jenkins-terraform-test.name
 
   ip_configuration {
-    name                          = "k21testipconfiguration"
-    subnet_id                     = azurerm_subnet.k21subnet1.id
+    name                          = "jenkins-terraform-test-ipconfiguration"
+    subnet_id                     = azurerm_subnet.jenkins-terraform-test-subnet1.id
     private_ip_address_allocation = "Dynamic"
-    public_ip_address_id          = azurerm_public_ip.k21publicip.id
+    public_ip_address_id          = azurerm_public_ip.jenkins-terraform-test-publicip.id
   }
 }
-resource "azurerm_linux_virtual_machine" "firstk21vm" {
-  name                            = "firstk21vm"
-  resource_group_name             = azurerm_resource_group.firsrg.name
+resource "azurerm_linux_virtual_machine" "jenkins-terraform-test-vm" {
+  name                            = "jenkins-terraform-test-firstvm"
+  resource_group_name             = azurerm_resource_group.jenkins-terraform-test.name
   location                        = "eastus"
-  network_interface_ids           = [azurerm_network_interface.k21nic.id]
+  network_interface_ids           = [azurerm_network_interface.jenkins-terraform-test-nic.id]
   size                            = "Standard_B1s"
   admin_username                  = "ratnakar"
   admin_password                  = "India@123456"
@@ -83,11 +83,11 @@ resource "azurerm_linux_virtual_machine" "firstk21vm" {
 #   disable_password_authetication = false
 #  admin_password = 
 #}
-data "azurerm_public_ip" "k21publicip" {
-  name                = azurerm_public_ip.k21publicip.name
-  resource_group_name = azurerm_resource_group.firsrg.name
+data "azurerm_public_ip" "jenkins-terraform-test-publicip" {
+  name                = azurerm_public_ip.jenkins-terraform-test-publicip.name
+  resource_group_name = azurerm_resource_group.jenkins-terraform-test.name
 }
 
 output "public_ip_address" {
-  value = data.azurerm_public_ip.k21publicip.ip_address
+  value = data.azurerm_public_ip.jenkins-terraform-test-publicip.ip_address
 }
