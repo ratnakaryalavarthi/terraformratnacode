@@ -46,7 +46,7 @@ resource "azurerm_network_interface" "k21nic" {
     name                          = "k21testipconfiguration"
     subnet_id                     = azurerm_subnet.k21subnet1.id
     private_ip_address_allocation = "Dynamic"
-    public_ip_address_id = azurerm_public_ip.k21publicip.id
+    public_ip_address_id          = azurerm_public_ip.k21publicip.id
   }
 }
 resource "azurerm_linux_virtual_machine" "firstk21vm" {

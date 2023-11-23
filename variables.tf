@@ -1,9 +1,9 @@
 variable "location" {
-    default = "East US"
+  default = "East US"
 }
 
 variable "resource_group_name" {
-    default = "jenkinsvimal"
+  default = "jenkinsvimal"
 }
 
 variable "address_space" {
